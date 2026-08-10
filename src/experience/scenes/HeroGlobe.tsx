@@ -17,6 +17,9 @@ import { AirplaneIcon } from '../props/TravelIcons'
 const EARTH_URL =
   'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-blue-marble.jpg'
 
+// Kick off the hero texture ASAP so Suspense resolves before the loader fades
+useTexture.preload(EARTH_URL)
+
 const Y_UP = new THREE.Vector3(0, 1, 0)
 
 function radialPose(lat: number, lon: number, radius: number) {

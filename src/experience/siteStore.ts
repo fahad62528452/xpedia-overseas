@@ -8,6 +8,8 @@ type SiteState = {
   scrollOffset: number
   sectionIndex: number
   ready: boolean
+  /** True after initial layout/scroll is stable — enables snap + hash sync */
+  bootComplete: boolean
   isMobile: boolean
   focusNonce: number
   tabVisible: boolean
@@ -19,6 +21,7 @@ let state: SiteState = {
   scrollOffset: 0,
   sectionIndex: 0,
   ready: false,
+  bootComplete: false,
   isMobile: false,
   focusNonce: 0,
   tabVisible: true,
@@ -67,6 +70,11 @@ export const siteStore = {
     state = { ...state, ready: value }
     emit()
   },
+  setBootComplete(value: boolean) {
+    if (state.bootComplete === value) return
+    state = { ...state, bootComplete: value }
+    emit()
+  },
   setIsMobile(value: boolean) {
     if (state.isMobile === value) return
     state = { ...state, isMobile: value }
@@ -98,7 +106,11 @@ export const siteStore = {
     state = { ...state, scrollOffset: offset, sectionIndex }
     emit()
 
-    if (!syncingHash && prevSection !== sectionIndex) {
+    // Never rewrite the URL during boot — that was auto-scrolling the page away
+    // from the hero before the globe finished loading.
+    if (!state.bootComplete || syncingHash) return
+
+    if (prevSection !== sectionIndex) {
       const hash = SECTION_HASHES[sectionIndex]
       if (hash && window.location.hash.replace('#', '') !== hash) {
         syncingHash = true

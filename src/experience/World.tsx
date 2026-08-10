@@ -26,10 +26,37 @@ function ScrollBridge() {
   const scroll = useScroll()
 
   useEffect(() => {
-    siteStore.setScrollEl(scroll.el as HTMLElement)
-    const t = window.setTimeout(() => siteStore.setReady(true), 450)
+    const el = scroll.el as HTMLElement
+    siteStore.setScrollEl(el)
+
+    // Pin to hero while layout/WebGL settle — prevents snap/hash jumping down.
+    el.scrollTop = 0
+    const pinTop = () => {
+      if (!siteStore.getSnapshot().bootComplete && el.scrollTop !== 0) {
+        el.scrollTop = 0
+      }
+    }
+    el.addEventListener('scroll', pinTop, { passive: true })
+
+    const readyT = window.setTimeout(() => siteStore.setReady(true), 500)
+    const bootT = window.setTimeout(() => {
+      siteStore.setBootComplete(true)
+      el.removeEventListener('scroll', pinTop)
+
+      const hash = window.location.hash.replace('#', '')
+      if (hash && hash !== 'top') {
+        // Honor deep links only after a stable hero boot
+        siteStore.scrollToHash(hash)
+      } else {
+        el.scrollTop = 0
+        history.replaceState(null, '', '#top')
+      }
+    }, 1600)
+
     return () => {
-      window.clearTimeout(t)
+      window.clearTimeout(readyT)
+      window.clearTimeout(bootT)
+      el.removeEventListener('scroll', pinTop)
       siteStore.setScrollEl(null)
     }
   }, [scroll.el])
@@ -53,6 +80,8 @@ function ScrollSnap() {
 
     const settle = () => {
       if (snapping.current) return
+      if (!siteStore.getSnapshot().bootComplete) return
+
       const max = el.scrollHeight - el.clientHeight
       if (max <= 0) return
 
@@ -74,6 +103,7 @@ function ScrollSnap() {
 
     const onScroll = () => {
       if (snapping.current) return
+      if (!siteStore.getSnapshot().bootComplete) return
       window.clearTimeout(idleTimer.current)
       idleTimer.current = window.setTimeout(settle, 140)
     }

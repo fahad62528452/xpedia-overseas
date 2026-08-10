@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense, lazy, useEffect, useState } from 'react'
+import { useProgress } from '@react-three/drei'
 import { siteStore, useSiteStore } from './siteStore'
 import { Loader } from './Loader'
 import { Progress } from './Progress'
@@ -8,6 +9,24 @@ import './experience.css'
 const World = lazy(() =>
   import('./World').then((m) => ({ default: m.World })),
 )
+
+/** Keeps the branded loader up until the hero globe textures are in */
+function TextureReadyGate() {
+  const { active, progress, loaded, total } = useProgress()
+
+  useEffect(() => {
+    // Wait until loaders have started and finished (hero earth + flags)
+    if (total > 0 && !active && progress >= 100) {
+      const t = window.setTimeout(() => siteStore.setReady(true), 180)
+      return () => window.clearTimeout(t)
+    }
+    if (loaded > 0 && !active && progress >= 100) {
+      siteStore.setReady(true)
+    }
+  }, [active, progress, loaded, total])
+
+  return null
+}
 
 export function Experience() {
   const { reducedMotion, isMobile, tabVisible } = useSiteStore()
@@ -21,52 +40,25 @@ export function Experience() {
     return () => mq.removeEventListener('change', update)
   }, [])
 
-  // Paint the loader shell first, then mount WebGL on the next frames.
+  // Mount WebGL on the next frame (loader already visible) — no long idle delay
   useEffect(() => {
-    let idleId = 0
-    let raf1 = 0
-    let raf2 = 0
-    const start = () => setMountCanvas(true)
-
-    raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        if ('requestIdleCallback' in window) {
-          idleId = (
-            window as Window & {
-              requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number
-            }
-          ).requestIdleCallback(start, { timeout: 400 })
-        } else {
-          start()
-        }
-      })
-    })
-
-    const fallback = window.setTimeout(start, 600)
-    return () => {
-      cancelAnimationFrame(raf1)
-      cancelAnimationFrame(raf2)
-      window.clearTimeout(fallback)
-      if (idleId && 'cancelIdleCallback' in window) {
-        ;(
-          window as Window & { cancelIdleCallback: (id: number) => void }
-        ).cancelIdleCallback(idleId)
-      }
-    }
+    const id = requestAnimationFrame(() => setMountCanvas(true))
+    return () => cancelAnimationFrame(id)
   }, [])
 
   useEffect(() => {
-    const t = window.setTimeout(() => siteStore.setReady(true), 3500)
+    // Safety: never leave the loader up forever if a CDN texture stalls
+    const t = window.setTimeout(() => siteStore.setReady(true), 4000)
     return () => window.clearTimeout(t)
   }, [])
 
-  // Warm later section chunks after first paint so scroll stays smooth
+  // Warm later section chunks after hero is up
   useEffect(() => {
     const warm = window.setTimeout(() => {
       void import('./scenes/ServiceForms')
       void import('./scenes/JourneyRibbon')
       void import('./scenes/ConsultGate')
-    }, 1200)
+    }, 2000)
     return () => window.clearTimeout(warm)
   }, [])
 
@@ -88,6 +80,7 @@ export function Experience() {
           }}
           style={{ position: 'fixed', inset: 0, width: '100%', height: '100%' }}
         >
+          <TextureReadyGate />
           <Suspense fallback={null}>
             <World />
           </Suspense>

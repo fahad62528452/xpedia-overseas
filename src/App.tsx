@@ -61,18 +61,16 @@ function useSectionKeyboard() {
 }
 
 function useHashRouting() {
-  const { ready } = useSiteStore()
-
+  // Deep links are applied once boot completes inside ScrollBridge.
+  // Listening here during boot was fighting the hero pin and auto-scrolling down.
   useEffect(() => {
-    if (!ready) return
-    if (window.location.hash) {
+    const onHash = () => {
+      if (!siteStore.getSnapshot().bootComplete) return
       siteStore.scrollToHash(window.location.hash)
     }
-
-    const onHash = () => siteStore.scrollToHash(window.location.hash)
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
-  }, [ready])
+  }, [])
 }
 
 export default function App() {
