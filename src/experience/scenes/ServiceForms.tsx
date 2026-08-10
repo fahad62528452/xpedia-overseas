@@ -66,7 +66,7 @@ function Pedestal() {
 type Props = { visibleRef: MutableRefObject<number> }
 
 export function ServiceForms({ visibleRef }: Props) {
-  const { reducedMotion } = useSiteStore()
+  const { reducedMotion, isMobile } = useSiteStore()
   const root = useRef<THREE.Group>(null)
   const group = useRef<THREE.Group>(null)
 
@@ -92,7 +92,11 @@ export function ServiceForms({ visibleRef }: Props) {
       <Environment preset="apartment" environmentIntensity={0.55} />
 
       {/* Shifted left + scaled down as a set */}
-      <group ref={group} position={[-1.35, 0.05, 0]} scale={0.72}>
+      <group
+        ref={group}
+        position={isMobile ? [-0.2, 0.85, 0] : [-1.35, 0.05, 0]}
+        scale={isMobile ? 0.48 : 0.72}
+      >
         {SERVICES.map((service, i) => {
           const Icon = service.Icon
           return (
@@ -127,9 +131,9 @@ export function ServiceForms({ visibleRef }: Props) {
       </group>
 
       <ContactShadows
-        position={[-1.35, -0.95, 0]}
+        position={isMobile ? [-0.2, -0.35, 0] : [-1.35, -0.95, 0]}
         opacity={0.32}
-        scale={6}
+        scale={isMobile ? 4.5 : 6}
         blur={2.2}
         far={3.5}
       />

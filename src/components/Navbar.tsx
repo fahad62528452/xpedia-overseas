@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import './Navbar.css'
 import { scrollToPage } from '../experience/scrollToPage'
 import { useSiteStore } from '../experience/siteStore'
@@ -12,16 +13,35 @@ const links = [
 export function Navbar() {
   const { sectionIndex } = useSiteStore()
   const onDark = sectionIndex >= 4
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [sectionIndex])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
+
+  function go(page: number) {
+    setMenuOpen(false)
+    scrollToPage(page)
+  }
 
   return (
-    <header className={`nav${onDark ? ' nav--dark' : ''}`}>
+    <header className={`nav${onDark ? ' nav--dark' : ''}${menuOpen ? ' is-open' : ''}`}>
       <a
         className="nav__brand"
         href="#top"
         aria-label="Xpedia Overseas Education home"
         onClick={(e) => {
           e.preventDefault()
-          scrollToPage(0)
+          go(0)
         }}
       >
         <img
@@ -44,7 +64,7 @@ export function Navbar() {
             href={link.href}
             onClick={(e) => {
               e.preventDefault()
-              scrollToPage(link.page)
+              go(link.page)
             }}
           >
             {link.label}
@@ -52,16 +72,60 @@ export function Navbar() {
         ))}
       </nav>
 
-      <a
-        className="nav__cta"
-        href="#consult"
-        onClick={(e) => {
-          e.preventDefault()
-          scrollToPage(4)
-        }}
+      <div className="nav__actions">
+        <a
+          className="nav__cta"
+          href="#consult"
+          onClick={(e) => {
+            e.preventDefault()
+            go(4)
+          }}
+        >
+          Book a session
+        </a>
+        <button
+          type="button"
+          className="nav__toggle"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      <nav
+        id="mobile-nav"
+        className="nav__drawer"
+        aria-label="Mobile"
+        hidden={!menuOpen}
       >
-        Book a session
-      </a>
+        {links.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={(e) => {
+              e.preventDefault()
+              go(link.page)
+            }}
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          className="nav__drawer-cta"
+          href="#consult"
+          onClick={(e) => {
+            e.preventDefault()
+            go(4)
+          }}
+        >
+          Book a session
+        </a>
+      </nav>
     </header>
   )
 }
