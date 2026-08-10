@@ -1,7 +1,11 @@
-import { useEffect } from 'react'
-import { Experience } from './experience/Experience'
+import { lazy, Suspense, useEffect } from 'react'
 import { siteStore, useSiteStore } from './experience/siteStore'
 import { Navbar } from './components/Navbar'
+import { Loader } from './experience/Loader'
+
+const Experience = lazy(() =>
+  import('./experience/Experience').then((m) => ({ default: m.Experience })),
+)
 
 function usePrefersReducedMotion() {
   useEffect(() => {
@@ -15,7 +19,8 @@ function usePrefersReducedMotion() {
 
 function useTabVisibility() {
   useEffect(() => {
-    const update = () => siteStore.setTabVisible(document.visibilityState === 'visible')
+    const update = () =>
+      siteStore.setTabVisible(document.visibilityState === 'visible')
     update()
     document.addEventListener('visibilitychange', update)
     return () => document.removeEventListener('visibilitychange', update)
@@ -79,7 +84,9 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <Experience />
+      <Suspense fallback={<Loader />}>
+        <Experience />
+      </Suspense>
     </>
   )
 }

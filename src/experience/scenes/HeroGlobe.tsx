@@ -15,9 +15,7 @@ import { focusTargets } from '../focusTargets'
 import { AirplaneIcon } from '../props/TravelIcons'
 
 const EARTH_URL =
-  'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r160/examples/textures/planets/earth_atmos_2048.jpg'
-const EARTH_BUMP =
-  'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-topology.png'
+  'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-blue-marble.jpg'
 
 const Y_UP = new THREE.Vector3(0, 1, 0)
 
@@ -340,19 +338,17 @@ function ArcNetwork({ activeId }: { activeId: string | null }) {
 }
 
 function EarthBall({ lowPower }: { lowPower: boolean }) {
-  const [colorMap, bumpMap] = useTexture([EARTH_URL, EARTH_BUMP])
+  const colorMap = useTexture(EARTH_URL)
   useLayoutEffect(() => {
     colorMap.colorSpace = THREE.SRGBColorSpace
-    colorMap.anisotropy = 8
+    colorMap.anisotropy = lowPower ? 2 : 4
     colorMap.needsUpdate = true
-  }, [colorMap])
+  }, [colorMap, lowPower])
 
   return (
-    <Sphere args={[2, lowPower ? 48 : 72, lowPower ? 48 : 72]}>
+    <Sphere args={[2, lowPower ? 40 : 64, lowPower ? 40 : 64]}>
       <meshStandardMaterial
         map={colorMap}
-        bumpMap={bumpMap}
-        bumpScale={0.05}
         color="#eaf2f8"
         roughness={0.48}
         metalness={0.04}

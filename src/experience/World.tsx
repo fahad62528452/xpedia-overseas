@@ -1,11 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { Suspense, lazy, useEffect, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { ScrollControls, useScroll, Stars, Line } from '@react-three/drei'
 import * as THREE from 'three'
 import { HeroGlobe } from './scenes/HeroGlobe'
-import { ServiceForms } from './scenes/ServiceForms'
-import { JourneyRibbon } from './scenes/JourneyRibbon'
-import { ConsultGate } from './scenes/ConsultGate'
 import { HtmlLayers } from './HtmlLayers'
 import { SectionRoom } from './SectionRoom'
 import { SCROLL_PAGES } from './siteContext'
@@ -15,12 +12,22 @@ import { BG, CAM_LOOK, CAM_POS, ROOM_POS } from './rooms'
 import { AirplaneIcon } from './props/TravelIcons'
 import { focusTargets } from './focusTargets'
 
+const ServiceForms = lazy(() =>
+  import('./scenes/ServiceForms').then((m) => ({ default: m.ServiceForms })),
+)
+const JourneyRibbon = lazy(() =>
+  import('./scenes/JourneyRibbon').then((m) => ({ default: m.JourneyRibbon })),
+)
+const ConsultGate = lazy(() =>
+  import('./scenes/ConsultGate').then((m) => ({ default: m.ConsultGate })),
+)
+
 function ScrollBridge() {
   const scroll = useScroll()
 
   useEffect(() => {
     siteStore.setScrollEl(scroll.el as HTMLElement)
-    const t = window.setTimeout(() => siteStore.setReady(true), 700)
+    const t = window.setTimeout(() => siteStore.setReady(true), 450)
     return () => {
       window.clearTimeout(t)
       siteStore.setScrollEl(null)
@@ -216,13 +223,19 @@ function Scenes() {
         <HeroGlobe heroVis={hero} destVis={dest} />
       </SectionRoom>
       <SectionRoom visibleRef={services} position={ROOM_POS[2]}>
-        <ServiceForms visibleRef={services} />
+        <Suspense fallback={null}>
+          <ServiceForms visibleRef={services} />
+        </Suspense>
       </SectionRoom>
       <SectionRoom visibleRef={journey} position={ROOM_POS[3]}>
-        <JourneyRibbon visibleRef={journey} progressRef={journeyProgress} />
+        <Suspense fallback={null}>
+          <JourneyRibbon visibleRef={journey} progressRef={journeyProgress} />
+        </Suspense>
       </SectionRoom>
       <SectionRoom visibleRef={consult} position={ROOM_POS[4]}>
-        <ConsultGate visibleRef={consult} />
+        <Suspense fallback={null}>
+          <ConsultGate visibleRef={consult} />
+        </Suspense>
       </SectionRoom>
       <AmbientField />
       <JourneyTrail />
@@ -273,7 +286,8 @@ function JourneyTrail() {
 
 function AmbientField() {
   const { reducedMotion, isMobile } = useSiteStore()
-  const count = reducedMotion ? 100 : isMobile ? 280 : 700
+  if (reducedMotion) return null
+  const count = isMobile ? 120 : 420
 
   return (
     <Stars
@@ -283,7 +297,7 @@ function AmbientField() {
       factor={2.2}
       saturation={0}
       fade
-      speed={reducedMotion ? 0 : 0.25}
+      speed={0.25}
     />
   )
 }

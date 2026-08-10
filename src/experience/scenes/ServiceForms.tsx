@@ -2,7 +2,6 @@ import { useRef, type MutableRefObject } from 'react'
 import { useFrame } from '@react-three/fiber'
 import {
   ContactShadows,
-  Environment,
   Float,
   RoundedBox,
   Text,
@@ -89,7 +88,6 @@ export function ServiceForms({ visibleRef }: Props) {
       />
       <directionalLight position={[-3, 2, -2]} intensity={0.45} color="#b8d4ff" />
       <pointLight position={[0, 2, 2]} intensity={0.55} color="#ffffff" />
-      <Environment preset="apartment" environmentIntensity={0.55} />
 
       {/* Shifted left + scaled down as a set */}
       <group

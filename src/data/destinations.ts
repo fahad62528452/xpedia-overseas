@@ -85,7 +85,7 @@ export const DESTINATIONS: Destination[] = [
 ]
 
 export function flagTextureUrl(code: string) {
-  return `https://flagcdn.com/w160/${code.toLowerCase()}.png`
+  return `https://flagcdn.com/w80/${code.toLowerCase()}.png`
 }
 
 export const SECTION_HASHES = [
