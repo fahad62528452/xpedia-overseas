@@ -51,8 +51,17 @@
 
 @media (max-width: 899px) {
   .progress {
-    right: max(0.55rem, env(safe-area-inset-right));
-    gap: 0.65rem;
+    top: auto;
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+    gap: 0.55rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(245, 250, 249, 0.78);
+    border: 1px solid rgba(10, 61, 74, 0.1);
+    backdrop-filter: blur(10px);
   }
 
   .progress__dot {
@@ -67,16 +76,7 @@
 
 @media (max-width: 480px) {
   .progress {
-    top: auto;
-    bottom: max(1rem, env(safe-area-inset-bottom));
-    right: 50%;
-    transform: translateX(50%);
-    flex-direction: row;
-    gap: 0.55rem;
-    padding: 0.45rem 0.65rem;
-    border-radius: 999px;
-    background: rgba(245, 250, 249, 0.72);
-    border: 1px solid rgba(10, 61, 74, 0.1);
-    backdrop-filter: blur(10px);
+    bottom: max(0.7rem, env(safe-area-inset-bottom));
+    padding: 0.4rem 0.65rem;
   }
 }

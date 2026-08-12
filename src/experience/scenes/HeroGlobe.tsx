@@ -412,18 +412,18 @@ export function HeroGlobe({ heroVis, destVis }: HeroGlobeProps) {
     if (stage.current) {
       const t = side.current
       // Camera looks at origin: +X = right of frame, −X = left of frame
-      const rightX = isMobile ? 0.55 : 2.55
-      const leftX = isMobile ? -0.35 : -2.75
+      const rightX = isMobile ? 0.15 : 2.55
+      const leftX = isMobile ? 0.1 : -2.75
       stage.current.position.x = THREE.MathUtils.lerp(rightX, leftX, t)
       stage.current.position.y = THREE.MathUtils.lerp(
-        isMobile ? 0.55 : 0.08,
-        isMobile ? 0.7 : 0.12,
+        isMobile ? 0.85 : 0.08,
+        isMobile ? 0.95 : 0.12,
         t,
       )
       // Destinations: slightly zoomed in
       const s = THREE.MathUtils.lerp(
-        isMobile ? 0.48 : 0.68,
-        isMobile ? 0.58 : 0.92,
+        isMobile ? 0.42 : 0.68,
+        isMobile ? 0.5 : 0.92,
         t,
       )
       stage.current.scale.setScalar(s)
@@ -455,8 +455,8 @@ export function HeroGlobe({ heroVis, destVis }: HeroGlobeProps) {
 
       <group
         ref={stage}
-        position={[isMobile ? 0.55 : 2.55, isMobile ? 0.55 : 0.08, 0]}
-        scale={isMobile ? 0.48 : 0.68}
+        position={[isMobile ? 0.15 : 2.55, isMobile ? 0.85 : 0.08, 0]}
+        scale={isMobile ? 0.42 : 0.68}
       >
         <Float
           speed={reducedMotion ? 0 : 0.35}

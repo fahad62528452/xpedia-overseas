@@ -33,7 +33,8 @@ export function Experience() {
   const [mountCanvas, setMountCanvas] = useState(false)
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)')
+    // Keep in sync with CSS mobile layout breakpoint (max-width: 899px)
+    const mq = window.matchMedia('(max-width: 899px)')
     const update = () => siteStore.setIsMobile(mq.matches)
     update()
     mq.addEventListener('change', update)
@@ -78,7 +79,15 @@ export function Experience() {
             stencil: false,
             depth: true,
           }}
-          style={{ position: 'fixed', inset: 0, width: '100%', height: '100%' }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            // Let touch scroll reach ScrollControls on phones/tablets;
+            // destination picking stays available via the HTML list.
+            pointerEvents: isMobile ? 'none' : 'auto',
+          }}
         >
           <TextureReadyGate />
           <Suspense fallback={null}>

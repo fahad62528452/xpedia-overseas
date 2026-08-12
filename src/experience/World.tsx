@@ -133,7 +133,8 @@ function CameraAndFog() {
   const focusMix = useRef(0)
 
   useFrame((state, delta) => {
-    const { reducedMotion, activeId, focusNonce } = siteStore.getSnapshot()
+    const { reducedMotion, activeId, focusNonce, isMobile } =
+      siteStore.getSnapshot()
     const o = scroll.offset
     const blend = reducedMotion ? 1 : 1 - Math.exp(-delta * 2.6)
 
@@ -146,6 +147,14 @@ function CameraAndFog() {
     tmpPos.current.lerpVectors(CAM_POS[i], CAM_POS[j], t)
     tmpLook.current.lerpVectors(CAM_LOOK[i], CAM_LOOK[j], t)
     bg.current.lerpColors(BG[i], BG[j], t)
+
+    // Mobile: pull camera back a touch and look more centered so UI cards fit
+    if (isMobile && i <= 1) {
+      tmpPos.current.z += 0.85
+      tmpPos.current.y += 0.35
+      tmpLook.current.y += 0.35
+      tmpLook.current.x *= 0.25
+    }
 
     const heroVis = sectionVisibility(o, 0)
     const destVis = sectionVisibility(o, 1)
@@ -160,7 +169,7 @@ function CameraAndFog() {
     focusMix.current = Math.max(0, focusMix.current - delta * 0.9)
 
     const target = activeId ? focusTargets.globe[activeId] : null
-    if (target && onGlobeStage && focusMix.current > 0.02) {
+    if (target && onGlobeStage && focusMix.current > 0.02 && !isMobile) {
       target.getWorldPosition(pinWorld.current)
       focusLook.current.copy(pinWorld.current)
       // Keep camera on the open side so the globe stays left/right
