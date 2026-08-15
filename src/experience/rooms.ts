@@ -27,10 +27,10 @@ export const CAM_LOOK = [
 ]
 
 export const BG = [
-  new THREE.Color('#dceee4'),
-  new THREE.Color('#cfe8da'),
-  new THREE.Color('#c0dfcf'),
-  new THREE.Color('#a8d4bc'),
+  new THREE.Color('#ffffff'),
+  new THREE.Color('#ffffff'),
+  new THREE.Color('#fafafa'),
+  new THREE.Color('#f5f5f5'),
   new THREE.Color('#0d3b28'),
 ]
 

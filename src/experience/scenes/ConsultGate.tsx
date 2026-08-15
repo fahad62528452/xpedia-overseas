@@ -97,7 +97,7 @@ export function ConsultGate({ visibleRef }: Props) {
         <mesh position={[0, 0.05, 0.06]}>
           <planeGeometry args={[2.7, 1.9]} />
           <meshStandardMaterial
-            color="#c8e6d4"
+            color="#ffffff"
             emissive="#7bc99a"
             emissiveIntensity={0.55}
             roughness={0.4}
@@ -116,7 +116,7 @@ export function ConsultGate({ visibleRef }: Props) {
         <Text
           position={[0, -0.75, 0.1]}
           fontSize={0.11}
-          color="#a8d4bc"
+          color="#ffffff"
           anchorX="center"
           letterSpacing={0.14}
         >
@@ -128,7 +128,7 @@ export function ConsultGate({ visibleRef }: Props) {
       <pointLight
         position={[0.2, 0.8, -0.8]}
         intensity={0.85}
-        color="#b8e0c8"
+        color="#ffffff"
         distance={6}
       />
 
@@ -260,7 +260,7 @@ export function ConsultGate({ visibleRef }: Props) {
               {[0, 1, 2].map((i) => (
                 <mesh key={i} position={[(i - 1) * 0.03, 0.1, 0]}>
                   <sphereGeometry args={[0.02, 8, 8]} />
-                  <meshBasicMaterial color="#e8f2ec" transparent opacity={0.2} />
+                  <meshBasicMaterial color="#ffffff" transparent opacity={0.2} />
                 </mesh>
               ))}
             </group>
@@ -290,7 +290,7 @@ export function ConsultGate({ visibleRef }: Props) {
         size={2}
         speed={0.25}
         opacity={0.35}
-        color="#a8e6c5"
+        color="#ffffff"
         position={[0.2, 0.4, -0.5]}
       />
 

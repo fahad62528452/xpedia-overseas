@@ -2,8 +2,8 @@
   --ink: #0c1f16;
   --ocean: #1a5c3a;
   --ocean-mid: #2d7a52;
-  --mist: #e7f2eb;
-  --foam: #f4faf6;
+  --mist: #ffffff;
+  --foam: #ffffff;
   --brass: #3d9b68;
   --brass-bright: #52b788;
   --slate: #4a6b5a;
@@ -36,7 +36,7 @@ html {
 body {
   min-height: 100vh;
   overflow: hidden;
-  background: #dceee4;
+  background: #ffffff;
 }
 
 #root {

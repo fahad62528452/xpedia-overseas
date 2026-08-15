@@ -1,8 +1,8 @@
 const ocean = '#1a5c3a'
 const mid = '#2d7a52'
 const brass = '#3d9b68'
-const mist = '#e7f2eb'
-const paper = '#f4faf6'
+const mist = '#ffffff'
+const paper = '#ffffff'
 
 type IconProps = {
   active?: boolean
@@ -14,7 +14,7 @@ type IconProps = {
 /** Low-poly airplane — consultancy / departure cue */
 export function AirplaneIcon({ active, scale = 1 }: IconProps) {
   const body = active ? brass : mid
-  const wing = active ? '#d8f3e0' : ocean
+  const wing = active ? '#ffffff' : ocean
   return (
     <group scale={scale} rotation={[0.15, 0.4, 0.1]}>
       <mesh>

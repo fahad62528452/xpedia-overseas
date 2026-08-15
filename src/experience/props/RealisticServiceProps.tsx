@@ -359,7 +359,7 @@ export function RealisticSuitcase({ scale = 1 }: PropProps) {
       {/* ID tag */}
       <mesh position={[0.2, 0.05, 0.165]} castShadow>
         <boxGeometry args={[0.1, 0.07, 0.01]} />
-        <meshStandardMaterial color="#f0f4f1" roughness={0.6} metalness={0.05} />
+        <meshStandardMaterial color="#ffffff" roughness={0.6} metalness={0.05} />
       </mesh>
     </group>
   )

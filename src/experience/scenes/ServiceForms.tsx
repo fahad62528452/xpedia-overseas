@@ -49,7 +49,7 @@ function Pedestal() {
         receiveShadow
       >
         <meshStandardMaterial
-          color="#d7ebe0"
+          color="#ffffff"
           roughness={0.55}
           metalness={0.05}
         />
@@ -86,7 +86,7 @@ export function ServiceForms({ visibleRef }: Props) {
         castShadow
         shadow-mapSize={[1024, 1024]}
       />
-      <directionalLight position={[-3, 2, -2]} intensity={0.45} color="#b8d4ff" />
+      <directionalLight position={[-3, 2, -2]} intensity={0.45} color="#ffffff" />
       <pointLight position={[0, 2, 2]} intensity={0.55} color="#ffffff" />
 
       {/* Shifted left + scaled down as a set */}

@@ -63,7 +63,7 @@
 .panel__glass {
   padding: clamp(1.25rem, 3vw, 1.85rem);
   border-radius: 1.25rem;
-  background: rgba(245, 250, 249, 0.72);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(10, 61, 74, 0.1);
   backdrop-filter: blur(14px);
   box-shadow: 0 18px 50px rgba(11, 28, 36, 0.08);
@@ -206,7 +206,7 @@
 .btn--ghost {
   border: 1px solid rgba(10, 61, 74, 0.22);
   color: var(--ocean);
-  background: rgba(245, 250, 249, 0.55);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(8px);
 }
 
@@ -326,7 +326,7 @@
 
 .dest-list__item:hover,
 .dest-list__item.is-active {
-  background: rgba(18, 102, 119, 0.1);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .plain-list {
@@ -394,7 +394,7 @@
 .consult-form textarea {
   width: 100%;
   border: 1px solid rgba(232, 241, 240, 0.22);
-  background: rgba(245, 250, 249, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--foam);
   border-radius: 0.65rem;
   padding: 0.75rem 0.9rem;
@@ -510,7 +510,7 @@
     -webkit-overflow-scrolling: touch;
     padding: 1.1rem 1.15rem;
     border-radius: 1.1rem;
-    background: rgba(245, 250, 249, 0.92);
+    background: rgba(255, 255, 255, 0.92);
   }
 
   .panel__glass--dark {
@@ -521,7 +521,7 @@
   .panel--hero .panel__inner {
     padding: 1rem 1.1rem 1.15rem;
     border-radius: 1.1rem;
-    background: rgba(245, 250, 249, 0.9);
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(10, 61, 74, 0.1);
     backdrop-filter: blur(14px);
     box-shadow: 0 14px 40px rgba(11, 28, 36, 0.1);

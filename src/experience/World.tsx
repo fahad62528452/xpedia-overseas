@@ -218,9 +218,9 @@ function GroundHaze() {
           >
             <circleGeometry args={[4.8, 48]} />
             <meshStandardMaterial
-              color={i === 4 ? '#1a5c3a' : '#cfe8da'}
+              color={i === 4 ? '#1a5c3a' : '#ffffff'}
               transparent
-              opacity={i === 4 ? 0.35 : 0.45}
+              opacity={i === 4 ? 0.35 : 0.5}
               roughness={1}
               metalness={0}
             />
@@ -347,9 +347,9 @@ function Lights() {
       <ambientLight intensity={0.68} />
       <directionalLight position={[8, 6, 5]} intensity={1.65} color="#fff8ea" />
       <directionalLight position={[-6, -1, -4]} intensity={0.48} color="#c5e0ff" />
-      <hemisphereLight args={['#f0f7ff', '#d8eedf', 0.52]} />
+      <hemisphereLight args={['#ffffff', '#f0f0f0', 0.52]} />
       <pointLight position={[3, 2, 4]} intensity={0.48} color="#ffffff" />
-      <pointLight position={[-3, 0, 2]} intensity={0.22} color="#8fd4aa" />
+      <pointLight position={[-3, 0, 2]} intensity={0.22} color="#ffffff" />
     </>
   )
 }

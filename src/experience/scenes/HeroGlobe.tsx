@@ -37,9 +37,9 @@ function Atmosphere() {
       {/* close haze */}
       <Sphere args={[2.045, 64, 64]}>
         <meshBasicMaterial
-          color="#9fd4ff"
+          color="#ffffff"
           transparent
-          opacity={0.12}
+          opacity={0.14}
           side={THREE.BackSide}
           depthWrite={false}
         />
@@ -47,9 +47,9 @@ function Atmosphere() {
       {/* outer sky glow */}
       <Sphere args={[2.2, 48, 48]}>
         <meshBasicMaterial
-          color="#c9e7ff"
+          color="#ffffff"
           transparent
-          opacity={0.09}
+          opacity={0.07}
           side={THREE.BackSide}
           depthWrite={false}
         />
@@ -329,10 +329,10 @@ function ArcNetwork({ activeId }: { activeId: string | null }) {
           <Line
             key={index}
             points={pts}
-            color={highlight ? '#52b788' : '#8ec8e8'}
+            color={highlight ? '#52b788' : '#ffffff'}
             lineWidth={highlight ? 1.8 : 1}
             transparent
-            opacity={highlight ? 0.85 : 0.28}
+            opacity={highlight ? 0.85 : 0.45}
           />
         )
       })}
@@ -352,10 +352,12 @@ function EarthBall({ lowPower }: { lowPower: boolean }) {
     <Sphere args={[2, lowPower ? 40 : 64, lowPower ? 40 : 64]}>
       <meshStandardMaterial
         map={colorMap}
-        color="#eaf2f8"
-        roughness={0.48}
-        metalness={0.04}
+        color="#ffffff"
+        roughness={0.52}
+        metalness={0.02}
         envMapIntensity={1}
+        emissive="#ffffff"
+        emissiveIntensity={0.06}
       />
     </Sphere>
   )
@@ -366,14 +368,14 @@ function EarthFallback() {
     <group>
       <Sphere args={[2, 48, 48]}>
         <meshStandardMaterial
-          color="#8ec8e8"
-          roughness={0.42}
-          metalness={0.06}
+          color="#f4f4f4"
+          roughness={0.55}
+          metalness={0.04}
         />
       </Sphere>
       <Sphere args={[2.01, 32, 32]}>
         <meshStandardMaterial
-          color="#9ccc65"
+          color="#ffffff"
           wireframe
           transparent
           opacity={0.16}
@@ -443,15 +445,15 @@ export function HeroGlobe({ heroVis, destVis }: HeroGlobeProps) {
     <group ref={root}>
       <directionalLight
         position={[4.5, 3.2, 5]}
-        intensity={1.8}
-        color="#fff6e8"
+        intensity={1.85}
+        color="#ffffff"
       />
       <directionalLight
         position={[-3, 1.5, -2]}
         intensity={0.55}
-        color="#b8d9ff"
+        color="#ffffff"
       />
-      <pointLight position={[2.5, 1.2, 3]} intensity={0.45} color="#ffffff" />
+      <pointLight position={[2.5, 1.2, 3]} intensity={0.5} color="#ffffff" />
 
       <group
         ref={stage}
